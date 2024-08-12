@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Examples for MR-MT3</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      /* margin: auto; */
+      padding-left: 10%;
+      padding-right: 10%;
+      /* max-width: 1000px; */
+    }
+    td img {
+      width: 100%;
+    }
+    h1 {
+      font-size: 35px;
+    }
+    h2 {
+      font-size: 25px;
+      font-weight: normal;
+    }
+    p {
+      font-size: 16px;
+    }
+    .audio-table td {
+      vertical-align: top;
+    }
+    .audio-table td img {
+      max-width: 100%;
+    }
+
+    .trackname {
+      cursor: pointer;
+    }
+
+    .collapsible {
+      display: none;
+      overflow: hidden;
+    }
+    .icon {
+      display: inline-block;
+    }
+
+  </style>
+</head>
+<body>
+
+<div style="max-width: 80%; margin-right: auto; margin-left:auto;">
+  <h1 style="text-align:center; font-size: 36px;">MR-MT3: Memory Retaining Token-based Multi-Track Automatic Music Transcription to Mitigate Instrument Leakage</h1>
+  <h2 style="text-align:center; font-size: 30px;">MIDI Transcription Examples</h2>
+</div>
+
+<h1>Contents</h1>
+<div style="font-size: 20px">
+  <a href="#from_scratch">Examples for Training From Scratch</a><br>
+  <a href="#continual_training">Examples for Continual Training</a><br>
+</div>
+
+<br/>
+<a name="from_scratch"><h1>Examples for Training From Scratch</h1></a>
+<p>Only the first two minutes of MIDI are shown in this page. Links to the full transcribed MIDI are provided. Audio files are rendered using <a href="https://craffel.github.io/pretty-midi/">pretty_midi</a>'s fluidsynth function.</p>
+<p>MIDI tracks are sorted in ascending order of program numbers, and named with convention "program_family (program_number)".</p>
+<p>For the train-from-scratch section, we compare MIDIs between:</p>
+<ul>
+  <li><b>Ground Truth</b> provided in Slakh dataset;</li>
+  <li><b>MT3 checkpoint</b> provided by the authors of <a href="https://github.com/magenta/mt3">MT3</a>;</li>
+  <li><b>MT3 reproduced from scratch</b>;</li>
+  <li><b>MR-MT3 (\(L_{\textrm{agg}} = 32\)):</b> best instrument leakage ratio (\(\xi\)) and F1 score according to Table 2;</li>
+  <li><b>MR-MT3 (\(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\)):</b> best onset F1 score according to Table 2.</li>
+</ul>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01888</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01881/ground_truth_midis_Track01881_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Checkpoint [<a href="midis/Track01881/slakh_mt3_pretrained_Track01881_mix.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Reproduced From Scratch [<a href="midis/Track01881/scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01881_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 32\) [<a href="midis/Track01881/scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01881_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01881/scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01881_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 10</td>
+          <td><b>Number of Tracks:</b> 14</td>
+          <td><b>Number of Tracks:</b> 17</td>
+          <td><b>Number of Tracks:</b> 11</td>
+          <td><b>Number of Tracks:</b> 12</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.4</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.7</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.1</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.2</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.33</td>
+          <td><b>Instrument F1:</b> 0.30</td>
+          <td><b>Instrument F1:</b> 0.40</td>
+          <td><b>Instrument F1:</b> 0.36</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 48.5 / 44.2 / 21.0</td>
+          <td><b>Onset F1:</b> 42.3 / 35.1 / 17.9</td>
+          <td><b>Onset F1:</b> 41.6 / 34.9 / 17.4</td>
+          <td><b>Onset F1:</b> 40.9 / 33.5 / 16.8</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01888/audioMR-MT3-midis-reordered_ground_truth_midis_Track01888_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01888/audioMR-MT3-midis-reordered_slakh_mt3_pretrained_Track01888_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01888/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01888_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01888/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01888_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01888/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01888_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots/Track01888/mrmt3_Track01888_gt.png" ></td>
+          <td><img src="midi_screenshots/Track01888/mrmt3_Track01888_mt3_pretrained.png" ></td>
+          <td><img src="midi_screenshots/Track01888/mrmt3_Track01888_scratch_0.png" ></td>
+          <td><img src="midi_screenshots/Track01888/mrmt3_Track01888_scratch_32.png" ></td>
+          <td><img src="midi_screenshots/Track01888/mrmt3_Track01888_scratch_64_3.png" ></td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01891</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01891/ground_truth_midis_Track01891_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Checkpoint [<a href="midis/Track01891/slakh_mt3_pretrained_Track01891_mix.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Reproduced From Scratch [<a href="midis/Track01891/scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01891_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 32\) [<a href="midis/Track01891/scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01891_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01891/scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01891_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 14</td>
+          <td><b>Number of Tracks:</b> 17</td>
+          <td><b>Number of Tracks:</b> 17</td>
+          <td><b>Number of Tracks:</b> 12</td>
+          <td><b>Number of Tracks:</b> 11</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.214</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.214</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 0.857</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 0.785</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.35</td>
+          <td><b>Instrument F1:</b> 0.28</td>
+          <td><b>Instrument F1:</b> 0.43</td>
+          <td><b>Instrument F1:</b> 0.36</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 68.1 / 66.4 / 40.2</td>
+          <td><b>Onset F1:</b> 65.3 / 62.7 / 43.3</td>
+          <td><b>Onset F1:</b> 68.7 / 67.0 / 44.1</td>
+          <td><b>Onset F1:</b> 66.3 / 64.1 / 43.1</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01891/audioMR-MT3-midis-reordered_ground_truth_midis_Track01891_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01891/audioMR-MT3-midis-reordered_slakh_mt3_pretrained_Track01891_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01891/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01891_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01891/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01891_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01891/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01891_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots/Track01891/mrmt3_Track01891_gt.png" ></td>
+          <td><img src="midi_screenshots/Track01891/mrmt3_Track01891_mt3_pretrained.png" ></td>
+          <td><img src="midi_screenshots/Track01891/mrmt3_Track01891_scratch_0.png" ></td>
+          <td><img src="midi_screenshots/Track01891/mrmt3_Track01891_scratch_32.png" ></td>
+          <td><img src="midi_screenshots/Track01891/mrmt3_Track01891_scratch_64_3.png" ></td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01893</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01893/ground_truth_midis_Track01893_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Checkpoint [<a href="midis/Track01893/slakh_mt3_pretrained_Track01893_mix.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Reproduced From Scratch [<a href="midis/Track01893/scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01893_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 32\) [<a href="midis/Track01893/scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01893_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01893/scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01893_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 14</td>
+          <td><b>Number of Tracks:</b> 17</td>
+          <td><b>Number of Tracks:</b> 16</td>
+          <td><b>Number of Tracks:</b> 13</td>
+          <td><b>Number of Tracks:</b> 13</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.21</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.14</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 0.93</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 0.93</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.29</td>
+          <td><b>Instrument F1:</b> 0.30</td>
+          <td><b>Instrument F1:</b> 0.25</td>
+          <td><b>Instrument F1:</b> 0.33</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 78.7 / 78.2 / 39.4</td>
+          <td><b>Onset F1:</b> 80.5 / 79.7 / 37.0</td>
+          <td><b>Onset F1:</b> 82.4 / 81.6 / 38.6</td>
+          <td><b>Onset F1:</b> 83.3 / 82.5 / 37.7</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_ground_truth_midis_Track01893_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_slakh_mt3_pretrained_Track01893_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01893_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01893_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01893_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots/Track01893/mrmt3_Track01893_gt.png" ></td>
+          <td><img src="midi_screenshots/Track01893/mrmt3_Track01893_mt3_pretrained.png" ></td>
+          <td><img src="midi_screenshots/Track01893/mrmt3_Track01893_scratch_0.png" ></td>
+          <td><img src="midi_screenshots/Track01893/mrmt3_Track01893_scratch_32.png" ></td>
+          <td><img src="midi_screenshots/Track01893/mrmt3_Track01893_scratch_64_3.png" ></td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01982</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01982/ground_truth_midis_Track01982_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Checkpoint [<a href="midis/Track01982/slakh_mt3_pretrained_Track01982_mix.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Reproduced From Scratch [<a href="midis/Track01982/scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01982_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 32\) [<a href="midis/Track01982/scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01982_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01982/scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01982_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 8</td>
+          <td><b>Number of Tracks:</b> 16</td>
+          <td><b>Number of Tracks:</b> 13</td>
+          <td><b>Number of Tracks:</b> 10</td>
+          <td><b>Number of Tracks:</b> 12</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 2.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.63</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.25</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.5</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.26</td>
+          <td><b>Instrument F1:</b> 0.19</td>
+          <td><b>Instrument F1:</b> 0.23</td>
+          <td><b>Instrument F1:</b> 0.32</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 63.2 / 62.3 / 49.8</td>
+          <td><b>Onset F1:</b> 63.6 / 59.5 / 48.2</td>
+          <td><b>Onset F1:</b> 64.5 / 61.4 / 50.7</td>
+          <td><b>Onset F1:</b> 64.9 / 60.8 / 49.3</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01982/audioMR-MT3-midis-reordered_ground_truth_midis_Track01982_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01982/audioMR-MT3-midis-reordered_slakh_mt3_pretrained_Track01982_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01982/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track01982_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01982/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track01982_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01982/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track01982_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots/Track01982/mrmt3_Track01982_gt.png" ></td>
+          <td><img src="midi_screenshots/Track01982/mrmt3_Track01982_mt3_pretrained.png" ></td>
+          <td><img src="midi_screenshots/Track01982/mrmt3_Track01982_scratch_0.png" ></td>
+          <td><img src="midi_screenshots/Track01982/mrmt3_Track01982_scratch_32.png" ></td>
+          <td><img src="midi_screenshots/Track01982/mrmt3_Track01982_scratch_64_3.png" ></td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track02002</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track02002/ground_truth_midis_Track02002_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Checkpoint [<a href="midis/Track02002/slakh_mt3_pretrained_Track02002_mix.mid">MIDI</a>]</b></td>
+          <td><b>MT3 Reproduced From Scratch [<a href="midis/Track02002/scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track02002_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 32\) [<a href="midis/Track02002/scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track02002_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track02002/scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track02002_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 9</td>
+          <td><b>Number of Tracks:</b> 13</td>
+          <td><b>Number of Tracks:</b> 21</td>
+          <td><b>Number of Tracks:</b> 10</td>
+          <td><b>Number of Tracks:</b> 11</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.44</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 2.33</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.11</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.22</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.6</td>
+          <td><b>Instrument F1:</b> 0.42</td>
+          <td><b>Instrument F1:</b> 0.7</td>
+          <td><b>Instrument F1:</b> 0.66</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 73.6 / 66.5 / 61.7</td>
+          <td><b>Onset F1:</b> 71.4 / 66.6 / 62.5</td>
+          <td><b>Onset F1:</b> 79.1 / 74.3 / 73.8</td>
+          <td><b>Onset F1:</b> 80.3 / 77.3 / 71.7</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_ground_truth_midis_Track02002_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_slakh_mt3_pretrained_Track02002_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=0_slakh_mt3_official_Track02002_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=32_slakh_mt3_official_Track02002_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_scratch_exp_segmemV2_prev_context=64_prevaug_frame=3_slakh_mt3_official_Track02002_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots/Track02002/mrmt3_Track02002_gt.png" ></td>
+          <td><img src="midi_screenshots/Track02002/mrmt3_Track02002_mt3_pretrained.png" ></td>
+          <td><img src="midi_screenshots/Track02002/mrmt3_Track02002_scratch_0.png" ></td>
+          <td><img src="midi_screenshots/Track02002/mrmt3_Track02002_scratch_32.png" ></td>
+          <td><img src="midi_screenshots/Track02002/mrmt3_Track02002_scratch_64_3.png" ></td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br/>
+<a name="continual_training"><h1>Examples for Continual Training</h1></a>
+<p>Only the first two minutes of MIDI are shown in this page. Links to the full transcribed MIDI are provided. Audio files are rendered using <a href="https://craffel.github.io/pretty-midi/">pretty_midi</a>'s fluidsynth function.</p>
+<p>MIDI tracks are sorted in ascending order of program numbers, and named with convention "program_family (program_number)".</p>
+<p>For the continual training section, we compare MIDIs for the <b>shuffled</b> experiment, between:</p>
+<ul>
+  <li><b>Ground Truth</b> provided in Slakh dataset;</li>
+  <li><b>MT3</b> continually trained for 100 epochs from given checkpoint;</li>
+  <li><b>MR-MT3 (\(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\))</b> continually trained for 100 epochs from given checkpoint.</li>
+</ul>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01881</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01881/ground_truth_midis_Track01881_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 [<a href="midis/Track01881/continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track01881_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01881/continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track01881_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 6</td>
+          <td><b>Number of Tracks:</b> 9</td>
+          <td><b>Number of Tracks:</b> 8</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.5</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.33</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.4</td>
+          <td><b>Instrument F1:</b> 0.42</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 86.3 / 84.6 / 47.5</td>
+          <td><b>Onset F1:</b> 87.3 / 85.9 / 48.1</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01881/audioMR-MT3-midis-reordered_ground_truth_midis_Track01881_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01881/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track01881_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01881/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track01881_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots_continual/Track01881/mrmt3_continual_Track01881_gt.png" ></td>
+          <td><img src="midi_screenshots_continual/Track01881/mrmt3_continual_Track01881_mt3.png" ></td>
+          <td><img src="midi_screenshots_continual/Track01881/mrmt3_continual_Track01881_mrmt3.png" ></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01893</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01893/ground_truth_midis_Track01893_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 [<a href="midis/Track01893/continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track01893_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01893/continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track01893_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 14</td>
+          <td><b>Number of Tracks:</b> 12</td>
+          <td><b>Number of Tracks:</b> 12</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 0.857</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 0.857</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.35</td>
+          <td><b>Instrument F1:</b> 0.35</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 76.1 / 75.2 / 38.3</td>
+          <td><b>Onset F1:</b> 78.3 / 77.6 / 40.4</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_ground_truth_midis_Track01893_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track01893_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01893/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track01893_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots_continual/Track01893/mrmt3_continual_Track01893_gt.png" ></td>
+          <td><img src="midi_screenshots_continual/Track01893/mrmt3_continual_Track01893_mt3.png" ></td>
+          <td><img src="midi_screenshots_continual/Track01893/mrmt3_continual_Track01893_mrmt3.png" ></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track01968</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track01968/ground_truth_midis_Track01968_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 [<a href="midis/Track01968/continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track01968_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track01968/continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track01968_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 6</td>
+          <td><b>Number of Tracks:</b> 9</td>
+          <td><b>Number of Tracks:</b> 7</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.5</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.16</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.71</td>
+          <td><b>Instrument F1:</b> 0.66</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 81.6 / 79.8 / 73.0</td>
+          <td><b>Onset F1:</b> 83.8 / 82.1 / 74.4</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track01968/audioMR-MT3-midis-reordered_ground_truth_midis_Track01968_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01968/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track01968_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track01968/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track01968_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots_continual/Track01968/mrmt3_continual_Track01968_gt.png" ></td>
+          <td><img src="midi_screenshots_continual/Track01968/mrmt3_continual_Track01968_mt3.png" ></td>
+          <td><img src="midi_screenshots_continual/Track01968/mrmt3_continual_Track01968_mrmt3.png" ></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track02002</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track02002/ground_truth_midis_Track02002_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 [<a href="midis/Track02002/continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track02002_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track02002/continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track02002_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 9</td>
+          <td><b>Number of Tracks:</b> 15</td>
+          <td><b>Number of Tracks:</b> 9</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.67</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.54</td>
+          <td><b>Instrument F1:</b> 0.62</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 69.3 / 63.7 / 62.2</td>
+          <td><b>Onset F1:</b> 67.1 / 61.6 / 60.7</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_ground_truth_midis_Track02002_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track02002_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02002/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track02002_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots_continual/Track02002/mrmt3_continual_Track02002_gt.png" ></td>
+          <td><img src="midi_screenshots_continual/Track02002/mrmt3_continual_Track02002_mt3.png" ></td>
+          <td><img src="midi_screenshots_continual/Track02002/mrmt3_continual_Track02002_mrmt3.png" ></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="details">
+  <div class="trackname">
+    <h2><span class="icon">►</span><b> Track02030</b></h2>
+  </div>
+  <div class="collapsible">
+    <table class="audio-table">
+      <tbody>
+        <tr>
+          <td><b>Ground Truth [<a href="midis/Track02030/ground_truth_midis_Track02030_all_src_v2.mid">MIDI</a>]</b></td>
+          <td><b>MT3 [<a href="midis/Track02030/continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track02030_mix.mid">MIDI</a>]</b></td>
+          <td><b>MR-MT3, \(L_{\textrm{agg}} = 64\), \(L_{\textrm{max_hop}} = 3\) [<a href="midis/Track02030/continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track02030_mix.mid">MIDI</a>]</b></td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><b>Number of Tracks:</b> 9</td>
+          <td><b>Number of Tracks:</b> 13</td>
+          <td><b>Number of Tracks:</b> 10</td>
+        </tr>
+        <tr>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.0</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.44</td>
+          <td><b>Instrument Leakage Ratio (\(\xi\)):</b> 1.11</td>
+        </tr>
+        <tr>
+          <td><b>Instrument F1:</b> 1.0</td>
+          <td><b>Instrument F1:</b> 0.5</td>
+          <td><b>Instrument F1:</b> 0.55</td>
+        </tr>
+        <tr>
+          <td><b>Onset F1:</b> 100.0 / 100.0 / 100.0</td>
+          <td><b>Onset F1:</b> 89.8 / 89.0 / 50.5</td>
+          <td><b>Onset F1:</b> 91.1 / 90.2 / 52.2</td>
+        </tr>
+        <tr>
+          <td><br/></td>
+          <td><br/></td>
+          <td><br/></td>
+        </tr>
+        <tr>
+          <td><audio controls=""> <source src="audio/Track02030/audioMR-MT3-midis-reordered_ground_truth_midis_Track02030_all_src_v2.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02030/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=0_MT3_1e-5_ep100_random_slakh_mt3_official_Track02030_mix.mp3"> </audio></td>
+          <td><audio controls=""> <source src="audio/Track02030/audioMR-MT3-midis-reordered_continual_exp_segmemV2_prev_context=64_prevaug_frame=3_MT3_1e-5_ep100_random_slakh_mt3_official_Track02030_mix.mp3"> </audio></td>
+        </tr>
+        <tr>
+          <td><img src="midi_screenshots_continual/Track02030/mrmt3_continual_Track02030_gt.png" ></td>
+          <td><img src="midi_screenshots_continual/Track02030/mrmt3_continual_Track02030_mt3.png" ></td>
+          <td><img src="midi_screenshots_continual/Track02030/mrmt3_continual_Track02030_mrmt3.png" ></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<script>
+  var coll = document.getElementsByClassName("trackname");
+  var i;
+  
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function(arg, e, i) {
+      var idx = i;
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+      var icon = this.getElementsByClassName('icon');
+      if (this.classList.contains("active")) {
+        icon[0].style.transform = "rotate(90deg)";
+      } else {
+        icon[0].style.transform = "rotate(0deg)";
+      }
+    });
+  }
+  coll[0].click();
+</script>
